@@ -1,0 +1,29 @@
+<div style="padding: 40px">
+  <%= form_tag movies_path, method: :get do %>
+    <%= text_field_tag :query,
+      params[:query],
+      class: "form-control",
+      placeholder: "Find a movie or TvShow"
+    %>
+    <%= submit_tag "Search", class: "btn btn-primary" %>
+  <% end %>
+</div>
+
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-sm-8">
+      <div id="movies">
+        <% @results.each do |result| %>
+          <% instance = params[:query].present? ? result.searchable : result %>
+          <p><%= instance.class %></p>
+          <h4><%= instance.title %></h4>
+          <p><%= instance.synopsis %></p>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Elasticsearch::Transport::Transport::ServerError: [429] {"error":{"root_cause":[{"type":"cluster_block_exception","reason":"index [movies_development_20210304101745510] blocked by: [TOO_MANY_REQUESTS/12/disk usage exceeded flood-stage watermark, index has read-only-allow-delete block];"}],"type":"cluster_block_exception","reason":"index [movies_development_20210304101745510] blocked by: [TOO_MANY_REQUESTS/12/disk usage exceeded flood-stage watermark, index has read-only-allow-delete block];"},"status":429}
+from /Users/georgekettle/.rbenv/versions/2.6.6/lib/ruby/gems/2.6.0/gems/elasticsearch-transport-7.13.1/lib/elasticsearch/transport/transport/base.rb:218:in `__raise_transport_error'
+ -->
